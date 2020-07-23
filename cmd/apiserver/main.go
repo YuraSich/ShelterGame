@@ -1,7 +1,8 @@
 package main
 
 import (
-	"log"
+	"fmt"
+	"math/rand"
 	"net/http"
 
 	"github.com/YuraSich/ShelterGame/app"
@@ -17,21 +18,41 @@ func main() {
 	userSet.Init(1 << 16)
 	r := gin.Default()
 	r.GET("/", showUsers)
-	r.POST("/addUser", addUser)
+	r.GET("/user/:login", getUser)
+	r.GET("/user", addUser)
 	r.Run()
 }
 
+func getUser(c *gin.Context) {
+	login := c.Param("login")
+	usr := userSet.FindByLogin(login)
+	if usr == nil {
+		c.String(http.StatusNotFound, "Login "+login+" DOES NOT exist")
+		return
+	}
+	c.String(http.StatusOK, "Login "+login+" exists id =  "+usr.ID)
+}
+
 func addUser(c *gin.Context) {
-	id := c.Query("id")
-	log.Print("ID = " + id)
 	login := c.Query("login")
-	log.Println("login = " + login)
-	if id == "" || login == "" {
+	if login == "" {
 		c.String(http.StatusBadRequest, "ID Or Login is invalid")
 		return
 	}
-	c.String(http.StatusOK, "User ")
-	userSet.Append(id, login)
+	usr := userSet.FindByLogin(login)
+	if usr == nil {
+		prevID, err := c.Cookie("userID")
+		if err != nil {
+			usr.ID = prevID
+		} else {
+			usr.ID = fmt.Sprint(rand.Uint64())
+			c.SetCookie("userID", usr.ID, 3600, "/", "localhost", false, true)
+		}
+		userSet.Append(usr.ID, login)
+		c.String(http.StatusOK, "User"+login+" Added id = "+usr.ID)
+	} else {
+		//TODO Если чувк уже заходил и у него есть куки
+	}
 }
 
 func showUsers(c *gin.Context) {

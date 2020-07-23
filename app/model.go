@@ -1,12 +1,5 @@
 package app
 
-// Room ...
-type Room struct {
-	ID       string `json:"id"`
-	Name     string `json:"name"`
-	Capacity int    `json:"capacity"`
-}
-
 // Player ...
 type Player struct {
 	user  *User

@@ -1,5 +1,23 @@
 package app
 
+// User ...
+type User struct {
+	ID    string `json:"id"`
+	Login string `json:"login"`
+}
+
+func newUser(id string, login string) *User {
+	s := &User{
+		ID:    id,
+		Login: login,
+	}
+	return s
+}
+
+//
+//
+//
+
 // UserSet ...
 type UserSet struct {
 	users          []User
@@ -30,16 +48,22 @@ func (us *UserSet) Size() (uint32, uint32) {
 	return us.connectedUsers, us.capacity
 }
 
-// User ...
-type User struct {
-	ID    string `json:"id"`
-	Login string `json:"login"`
+// FindByLogin ...
+func (us *UserSet) FindByLogin(login string) *User {
+	for _, i := range us.users {
+		if i.Login == login {
+			return &i
+		}
+	}
+	return nil
 }
 
-func newUser(id string, login string) *User {
-	s := &User{
-		ID:    id,
-		Login: login,
+// FindByID ...
+func (us *UserSet) FindByID(id string) *User {
+	for _, i := range us.users {
+		if i.ID == id {
+			return &i
+		}
 	}
-	return s
+	return nil
 }
