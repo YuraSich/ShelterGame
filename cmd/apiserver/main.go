@@ -1,57 +1,45 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
-	"github.com/gorilla/securecookie"
-	log "github.com/sirupsen/logrus"
+	"github.com/YuraSich/ShelterGame/app"
+
+	"github.com/gin-gonic/gin"
+)
+
+var (
+	userSet app.UserSet
 )
 
 func main() {
-	log.Info("Starting Server...")
-
-	router := mux.NewRouter()
-
-	router.HandleFunc("/", handler)
-
-	log.Info("Server Listen And Serve localhost:8080")
-	http.ListenAndServe(":8080", router)
+	userSet.Init(1 << 16)
+	r := gin.Default()
+	r.GET("/", showUsers)
+	r.POST("/addUser", addUser)
+	r.Run()
 }
 
-var cookies = map[string]*securecookie.SecureCookie{
-	"previous": securecookie.New(
-		securecookie.GenerateRandomKey(64),
-		securecookie.GenerateRandomKey(32),
-	),
-	"current": securecookie.New(
-		securecookie.GenerateRandomKey(64),
-		securecookie.GenerateRandomKey(32),
-	),
+func addUser(c *gin.Context) {
+	id := c.Query("id")
+	log.Print("ID = " + id)
+	login := c.Query("login")
+	log.Println("login = " + login)
+	if id == "" || login == "" {
+		c.String(http.StatusBadRequest, "ID Or Login is invalid")
+		return
+	}
+	c.String(http.StatusOK, "User ")
+	userSet.Append(id, login)
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	value := map[string]string{
-		"foo": "bar",
+func showUsers(c *gin.Context) {
+	cUsers := userSet.GetUsers()
+	for i := 0; i < len(cUsers); i++ {
+		c.JSON(200, gin.H{
+			cUsers[i].ID: cUsers[i].Login,
+		})
 	}
-	if encoded, err := securecookie.EncodeMulti("cookie-name", value, cookies["current"]); err == nil {
-		cookie := &http.Cookie{
-			Name:  "cookie-name",
-			Value: encoded,
-			Path:  "/",
-		}
-		http.SetCookie(w, cookie)
-	}
-	ReadCookieHandler(w, r)
-}
 
-func ReadCookieHandler(w http.ResponseWriter, r *http.Request) {
-	if cookie, err := r.Cookie("cookie-name"); err == nil {
-		value := make(map[string]string)
-		err = securecookie.DecodeMulti("cookie-name", cookie.Value, &value, cookies["current"], cookies["previous"])
-		if err == nil {
-			fmt.Fprintf(w, "The value of foo is %q", value["foo"])
-		}
-	}
 }

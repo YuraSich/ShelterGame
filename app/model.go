@@ -1,16 +1,10 @@
 package app
 
-// User ...
-type User struct {
-	ID    string `json:"id"`
-	Login string `json:"login"`
-}
-
 // Room ...
 type Room struct {
 	ID       string `json:"id"`
-	Name     string
-	Capacity int
+	Name     string `json:"name"`
+	Capacity int    `json:"capacity"`
 }
 
 // Player ...
@@ -23,25 +17,14 @@ type Player struct {
 
 // CardSet ...
 type CardSet struct {
-	//Возраст
-	Age string
-	//Профессия
-	Profession string
-	//Пол
-	Sex string
-	//Ориентация
-	Orientation string
-	//Хобби
-	Hobby string
-	//Качества
-	Qualities string
-	//Здоровье
-	Health string
-	//Доп инфа
-	ExtraInfo string
-	//Способность
-	
-	//Фобия
-	Phobia string
-
+	Age         string `json:"age"`
+	Profession  string `json:"profession"`
+	Sex         string `json:"sex"`
+	Orientation string `json:"orientation"`
+	Hobby       string `json:"hobby"`
+	Qualities   string `json:"qualities"`
+	Health      string `json:"health"`
+	ExtraInfo   string `json:"extraInfo"`
+	Ability     string `json:"ability"`
+	Phobia      string `json:"phobia"`
 }
