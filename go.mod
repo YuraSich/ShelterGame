@@ -3,6 +3,7 @@ module github.com/YuraSich/ShelterGame
 go 1.14
 
 require (
+	github.com/gin-contrib/sessions v0.0.3
 	github.com/gin-gonic/gin v1.6.3
 	github.com/gorilla/mux v1.7.4
 	github.com/gorilla/securecookie v1.1.1

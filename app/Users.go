@@ -6,7 +6,8 @@ type User struct {
 	Login string `json:"login"`
 }
 
-func newUser(id string, login string) *User {
+// NewUser ...
+func NewUser(id string, login string) *User {
 	s := &User{
 		ID:    id,
 		Login: login,
@@ -35,7 +36,12 @@ func (us *UserSet) Init(c uint32) {
 
 // Append ...
 func (us *UserSet) Append(id string, login string) {
-	us.users = append(us.users, *newUser(id, login))
+	us.users = append(us.users, *NewUser(id, login))
+}
+
+// AppendUser ...
+func (us *UserSet) AppendUser(usr User) {
+	us.users = append(us.users, usr)
 }
 
 // GetUsers ...
