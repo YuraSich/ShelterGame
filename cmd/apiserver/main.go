@@ -17,6 +17,10 @@ var (
 func main() {
 	r := gin.Default()
 	users = make([]*app.User, 0)
+	_, err := app.NewAPIServer("test_db")
+	if err != nil {
+		log.Fatal(err)
+	}
 	r.GET("/login", loginHandlerGET)
 	r.POST("/login", loginHandlerPOST)
 	r.GET("/registration", regHandlerGET)
