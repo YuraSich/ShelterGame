@@ -5,15 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-if( user != null){
-<div>Hello {{userName}}!
-</div>
+{{ if .user }}
+<div>Hello {{userName}}!</div>
 <div><a href="logout"> Выйти </a></div>
-}else{
+{{else}}
 <div><a href="logout"> Войти </a></div>
-<div><a href="registration"> Зарегаться </a>
-</div>
-}
+<div><a href="registration"> Зарегаться </a></div>
+{{end}}
 
 </body>
 </html>
