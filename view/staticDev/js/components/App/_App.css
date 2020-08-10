@@ -1,0 +1,94 @@
+@charset "UTF-8";
+.App {
+  background-color: #fff6be; }
+  .App .my-red {
+    background-color: #ffb1b8; }
+  .App .my-green {
+    background-color: #b4ffb7; }
+  .App .my-blue {
+    background-color: #e3f6ff; }
+  .App .my-yellow {
+    background-color: #fff6be; }
+  .App .my-gray {
+    background-color: #d2d2d2; }
+  .App .my-black {
+    background-color: #000000; }
+  .App .btn-close {
+    position: absolute;
+    opacity: 0.2;
+    -webkit-transition: opacity 1s;
+    -o-transition: opacity 1s;
+    transition: opacity 1s; }
+    .App .btn-close:hover {
+      opacity: 1; }
+  .App .my-container {
+    background-color: #fff6be;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    font-size: 100%;
+    min-height: 250px;
+    height: 33%;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center; }
+  .App .control-pane {
+    border: 1px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200%;
+    height: 100%; }
+  .App .one-user {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
+    overflow: hidden;
+    width: 100%; }
+    .App .one-user__info-row {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      border-top: 1px solid black; }
+      .App .one-user__info-row > div {
+        width: 100%; }
+        .App .one-user__info-row > div:first-child {
+          border-right: 1px solid black; }
+        .App .one-user__info-row > div:last-child {
+          border-left: 1px solid black; }
+      .App .one-user__info-row .cell {
+        padding: 2px;
+        position: relative;
+        /* Относительное позиционирование */
+        white-space: nowrap;
+        /* Отменяем перенос текста */
+        overflow: hidden;
+        /* Обрезаем содержимое */ }
+        .App .one-user__info-row .cell .icon {
+          padding-left: 2px;
+          padding-right: 2px; }
+        .App .one-user__info-row .cell::after {
+          content: '';
+          /* Выводим элемент */
+          position: absolute;
+          /* Абсолютное позиционирование */
+          right: 0;
+          top: 0;
+          /* Положение элемента */
+          width: 40px;
+          /* Ширина градиента*/
+          height: 100%;
+          /* Высота родителя */
+          background-image: -webkit-gradient(linear, left top, right top, from(#e3f6ff00), to(#e3f6ffFF));
+          background-image: -webkit-linear-gradient(left, #e3f6ff00, #e3f6ffFF);
+          background-image: -o-linear-gradient(left, #e3f6ff00, #e3f6ffFF);
+          background-image: linear-gradient(to right, #e3f6ff00, #e3f6ffFF);
+          /* Standard syntax (must be last) */ }

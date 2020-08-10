@@ -1,0 +1,103 @@
+$my-red-color: #ffb1b8;
+.my-red {
+  background-color: $my-red-color;
+}
+
+$my-green-color: #b4ffb7;
+.my-green {
+  background-color: $my-green-color;
+}
+
+$my-blue-color: #aff5ff;
+.my-blue {
+  background-color: $my-blue-color;
+}
+
+$my-yellow-color: #fff6be;
+.my-yellow {
+  background-color: $my-yellow-color;
+}
+$my-gray-color: #d2d2d2;
+.my-gray {
+  background-color: $my-gray-color;
+}
+
+$my-black-color: #000000;
+.my-black {
+  background-color: $my-black-color;
+}
+
+.my-container {
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  font-size: 100%;
+}
+.one-user {
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+
+  //.img-container {
+  //  margin: 0 auto;
+  //  //width: 200px;     // произвольная ширина контейнера
+  //  height: 150px; // произвольная высота контейнера
+  //
+  //  display: flex;
+  //  justify-content: center; // если нужно разместить по центру (горизонтали)
+  //  img {
+  //    max-width: 100%; // не обязательно
+  //    height: 100%;
+  //  }
+  //}
+
+  &__info {
+
+  }
+
+  &__info-row {
+    display: flex;
+    justify-content: center;
+
+    &:first-child {
+      border-top: 1px solid black;
+    }
+
+    border-bottom: 1px solid black;
+
+    > div {
+      &:first-child {
+        border-left: 1px solid black;
+      }
+
+      border-right: 1px solid black;
+      width: 100%;
+    }
+
+    .cell {
+      padding: 2px;
+      .icon {
+        padding-left: 2px;
+        padding-right: 2px;
+      }
+      position: relative; /* Относительное позиционирование */
+      white-space: nowrap; /* Отменяем перенос текста */
+      overflow: hidden; /* Обрезаем содержимое */
+      &::after {
+        content: ''; /* Выводим элемент */
+        position: absolute; /* Абсолютное позиционирование */
+        right: 0;
+        top: 0; /* Положение элемента */
+        width: 40px; /* Ширина градиента*/
+        height: 100%; /* Высота родителя */
+        background-image: linear-gradient(to right, rgba(210,210,210,0),   rgba(210,210,210,1)); /* Standard syntax (must be last) */
+      }
+    }
+
+  }
+
+
+}
+
+

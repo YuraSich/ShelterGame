@@ -1,0 +1,139 @@
+.App {
+
+  $my-red-color: #ffb1b8;
+  .my-red {
+    background-color: $my-red-color;
+  }
+
+  $my-green-color: #b4ffb7;
+  $my-green-color-low: #b4ffb700;
+  $my-green-color-high: #b4ffb7FF;
+  .my-green {
+    background-color: $my-green-color;
+  }
+
+  $my-blue-color: #e3f6ff;
+  $my-blue-color-low: #e3f6ff00;
+  $my-blue-color-high: #e3f6ffFF;
+  .my-blue {
+    background-color: $my-blue-color;
+  }
+
+  $my-yellow-color: #fff6be;
+  .my-yellow {
+    background-color: $my-yellow-color;
+  }
+  $my-gray-color: #d2d2d2;
+  .my-gray {
+    background-color: $my-gray-color;
+  }
+
+  $my-black-color: #000000;
+  .my-black {
+    background-color: $my-black-color;
+  }
+
+
+  background-color: $my-yellow-color;
+
+
+  .btn-close{
+    position: absolute;
+    opacity: 0.2;
+    transition: opacity 1s;
+    &:hover{
+      opacity: 1;
+    }
+  }
+
+  .my-container {
+    background-color: $my-yellow-color;
+    display: flex;
+    justify-content: center;
+    font-size: 100%;
+    min-height: 250px;
+    height: 33%;
+    align-items: center;
+  }
+  .control-pane{
+    border: 1px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200%;
+    height: 100%;
+  }
+  .one-user {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
+    overflow: hidden;
+
+    width: 100%;
+
+    .img-container {
+      margin: 0 auto;
+      padding-bottom: 2px;
+      padding-top: 2px;
+      //width: 200px;     // произвольная ширина контейнера
+      height: 150px; // произвольная высота контейнера
+
+      display: flex;
+      justify-content: center; // если нужно разместить по центру (горизонтали)
+      img {
+        border-radius: 10px;
+        max-width: 100%; // не обязательно
+        height: 100%;
+      }
+    }
+
+    &__info {
+
+    }
+
+    &__info-row {
+      display: flex;
+      justify-content: center;
+
+      //&:first-child {
+      //  border-top: 1px solid black;
+      //}
+
+      border-top: 1px solid black;
+
+      > div {
+        &:first-child {
+          border-right: 1px solid black;
+        }
+        &:last-child {
+          border-left: 1px solid black;
+        }
+        //border-right: 1px solid black;
+        width: 100%;
+      }
+
+      .cell {
+        padding: 2px;
+        .icon {
+          padding-left: 2px;
+          padding-right: 2px;
+        }
+        position: relative; /* Относительное позиционирование */
+        white-space: nowrap; /* Отменяем перенос текста */
+        overflow: hidden; /* Обрезаем содержимое */
+        &::after {
+          content: ''; /* Выводим элемент */
+          position: absolute; /* Абсолютное позиционирование */
+          right: 0;
+          top: 0; /* Положение элемента */
+          width: 40px; /* Ширина градиента*/
+          height: 100%; /* Высота родителя */
+          background-image: linear-gradient(to right, $my-blue-color-low,   $my-blue-color-high); /* Standard syntax (must be last) */
+        }
+      }
+    }
+  }
+}
+

@@ -21,12 +21,11 @@ module.exports = {
   watch: true,
 
   entry: {
-    build: path.join(__dirname, 'src', 'js', 'main.js'),
-    ezBotWidget: path.join(__dirname, 'src', 'js', 'ezBotWidget.js'),
+    build: path.join(__dirname, 'staticDev', 'js', 'main.js'),
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: process.env.NODE_ENV === 'development' ? '/dist/' : './dist/',
+    path: path.resolve(__dirname, 'static/dist'),
+    publicPath: process.env.NODE_ENV === 'development' ? '/static/dist/' : './static/dist/',
     filename: '[name].js'
   },
 
@@ -164,7 +163,7 @@ module.exports = {
               options: {
                 sourceMap: true,
                 config: {
-                  path: path.join(__dirname, 'src', 'config', 'postcss.config.js')
+                  path: path.join(__dirname, 'staticDev', 'config', 'postcss.config.js')
                 }
               }
             },
@@ -209,7 +208,7 @@ module.exports = {
               options: {
                 sourceMap: true,
                 config: {
-                  path: path.join(__dirname, 'src', 'config', 'postcss.config.js')
+                  path: path.join(__dirname, 'staticDev', 'config', 'postcss.config.js')
                 }
               }
             },
@@ -253,7 +252,7 @@ module.exports = {
   },
   resolve: {
     modules: [
-      path.join(__dirname, 'src', 'js'),
+      path.join(__dirname, 'staticDev', 'js'),
       path.join(__dirname, 'node_modules')
     ],
     alias:
