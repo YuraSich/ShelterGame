@@ -1,9 +1,8 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
-	"math/rand"
+	"html/template"
+	"log"
 	"net/http"
 
 	"github.com/YuraSich/ShelterGame/app"
@@ -12,69 +11,89 @@ import (
 )
 
 var (
-	userSet app.UserSet
+	users []*app.User
 )
 
 func main() {
-	userSet.Init(1 << 16)
-
 	r := gin.Default()
-	r.GET("/", showUsers)
-	r.GET("/user/:login", getUser)
-	r.GET("/user", addUser)
-	r.Run()
+	users = make([]*app.User, 0)
+	_, err := app.NewAPIServer("test_db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	r.GET("/login", loginHandlerGET)
+	r.POST("/login", loginHandlerPOST)
+	r.GET("/registration", regHandlerGET)
+	r.POST("/registration", regHandlerPOST)
+	r.GET("/", indexHandler)
+	r.Run(":3030")
 }
 
-func userHandler(c *gin.Context) {
-
-}
-
-func getUser(c *gin.Context) {
-	login := c.Param("login")
-	usr := userSet.FindByLogin(login)
-	if usr == nil {
-		c.String(http.StatusNotFound, "Login "+login+" DOES NOT exist")
+func indexHandler(c *gin.Context) {
+	auth, err := c.Cookie("auth")
+	if err != nil {
+		c.Redirect(http.StatusFound, "/login")
+		c.Abort()
 		return
 	}
-	c.String(http.StatusOK, "Login "+login+" exists id =  "+usr.ID)
-}
-
-func addUser(c *gin.Context) {
-	login := c.Query("login")
-
-	if login == "" {
-		c.String(http.StatusBadRequest, "Login is invalid")
+	if auth != "yes" {
+		c.Redirect(http.StatusFound, "/login")
+		c.Abort()
 		return
 	}
-
-	usr := userSet.FindByLogin(login)
-
-	if usr != nil {
-		c.String(http.StatusBadRequest, "User exists")
-		return
+	t, err := template.ParseFiles("view/static/mainPage.html")
+	if err != nil {
+		c.String(http.StatusInternalServerError, "HUYAMBA-loginHandlerGET")
 	}
-
-	newID := fmt.Sprint(rand.Uint64())
-	for userSet.FindByID(newID) != nil {
-		newID = fmt.Sprint(rand.Uint64())
-	}
-	usr = app.NewUser(newID, login)
-	c.SetCookie("userID", usr.ID, 3600, "/", "localhost", false, true)
-	userSet.AppendUser(*usr)
-	c.String(http.StatusOK, "User"+login+" Added id = "+usr.ID)
-
+	t.Execute(c.Writer, c.Request)
 }
 
-func showUsers(c *gin.Context) {
-	cUsers := userSet.GetUsers()
-	for _, i := range cUsers {
-		e, err := json.Marshal(i)
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			c.String(http.StatusOK, string(e))
+func loginHandlerGET(c *gin.Context) {
+	t, err := template.ParseFiles("view/static/login.html")
+	if err != nil {
+		c.String(http.StatusInternalServerError, "HUYAMBA-loginHandlerGET")
+	}
+	t.Execute(c.Writer, c.Request)
+}
+
+func loginHandlerPOST(c *gin.Context) {
+	username := c.PostForm("username")
+	password := c.PostForm("password")
+	log.Println("User = " + username + "\tpassword = " + password)
+	for _, i := range users {
+		if i.Login == username {
+			log.Println("Login correct")
+			if i.Password == password {
+				log.Println("Password correct")
+				c.SetCookie("auth", "yes", 3600, "/", "localhost", false, true)
+				c.Redirect(http.StatusFound, "/")
+				c.Abort()
+			}
 		}
-
 	}
+	//loginHandlerGET(c)
+}
 
+func regHandlerGET(c *gin.Context) {
+	t, err := template.ParseFiles("view/static/registration.html")
+	if err != nil {
+		c.String(http.StatusInternalServerError, "HUYAMBA-regHandlerGET")
+	}
+	t.Execute(c.Writer, c.Request)
+}
+
+func regHandlerPOST(c *gin.Context) {
+	username := c.PostForm("username")
+	password := c.PostForm("password")
+	log.Println("User = " + username + "\tpassword = " + password)
+	usr := app.NewUser(
+		"",
+		username,
+		"",
+		password,
+		"",
+	)
+	users = append(users, usr)
+	c.Redirect(http.StatusFound, "/login")
+	c.Abort()
 }
